@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import CalendarWrapper from '../components/CalendarWrapper';
+import AddReminder from '../components/AddReminder';
 import { Modal, Button } from 'antd';
 
 export default function Dashboard() {
@@ -20,16 +21,14 @@ export default function Dashboard() {
       <Button type="primary" onClick={showModal}>
         Open Modal
       </Button>
-      <CalendarWrapper />
+      <CalendarWrapper showModal={showModal} />
       <Modal
         title="Basic Modal"
         visible={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
       >
-        <p>Some contents...</p>
-        <p>Some contents...</p>
-        <p>Some contents...</p>
+        <AddReminder />
       </Modal>
     </div>
   );

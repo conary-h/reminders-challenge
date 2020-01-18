@@ -1,7 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Calendar, Badge } from 'antd';
 
-export default function CalendarWrapper() {
+export default function CalendarWrapper(props) {
   const getListData = value => {
     let listData;
     switch (value.date()) {
@@ -52,7 +53,8 @@ export default function CalendarWrapper() {
   };
 
   const onDateSelect = value => {
-    console.log(value);
+    props.showModal();
+    console.log(value.date());
   };
   return (
     <div>
@@ -64,3 +66,10 @@ export default function CalendarWrapper() {
     </div>
   );
 }
+CalendarWrapper.propTypes = {
+  showModal: PropTypes.func
+};
+
+CalendarWrapper.defaultProps = {
+  showModal: () => {}
+};
