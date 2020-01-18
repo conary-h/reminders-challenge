@@ -18,16 +18,6 @@ export default function CalendarWrapper() {
           { type: 'error', content: 'This is error event.' }
         ];
         break;
-      case 15:
-        listData = [
-          { type: 'warning', content: 'This is warning event' },
-          { type: 'success', content: 'This is very long usual event。。....' },
-          { type: 'error', content: 'This is error event 1.' },
-          { type: 'error', content: 'This is error event 2.' },
-          { type: 'error', content: 'This is error event 3.' },
-          { type: 'error', content: 'This is error event 4.' }
-        ];
-        break;
       default:
     }
     return listData || [];
@@ -60,11 +50,16 @@ export default function CalendarWrapper() {
       </div>
     ) : null;
   };
+
+  const onDateSelect = value => {
+    console.log(value);
+  };
   return (
     <div>
       <Calendar
         dateCellRender={dateCellRender}
         monthCellRender={monthCellRender}
+        onSelect={onDateSelect}
       />
     </div>
   );
