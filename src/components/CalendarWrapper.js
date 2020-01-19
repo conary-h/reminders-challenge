@@ -1,6 +1,5 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
 import { Calendar, Badge } from 'antd';
 
 export default function CalendarWrapper(props) {
@@ -8,7 +7,7 @@ export default function CalendarWrapper(props) {
 
   const setCurrentReminders = (reminders, currentDate) => {
     return reminders.filter(
-      reminder => reminder.reminderdate === currentDate.format('MMM Do YY')
+      reminder => reminder.reminderDate === currentDate.format('MMM Do YY')
     );
   };
   const sortCurrentReminders = filteredReminderList => {
@@ -23,7 +22,6 @@ export default function CalendarWrapper(props) {
   const dateCellRender = value => {
     const filteredReminderList = setCurrentReminders(reminders, value);
     const listData = sortCurrentReminders(filteredReminderList);
-    console.log(listData);
     return (
       <ul className="events">
         {listData.map((item, index) => (
@@ -65,10 +63,3 @@ export default function CalendarWrapper(props) {
     </div>
   );
 }
-CalendarWrapper.propTypes = {
-  showModal: PropTypes.func
-};
-
-CalendarWrapper.defaultProps = {
-  showModal: () => {}
-};
