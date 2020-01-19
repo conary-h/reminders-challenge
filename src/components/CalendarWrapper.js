@@ -52,16 +52,12 @@ export default function CalendarWrapper(props) {
     ) : null;
   };
 
-  const onDateSelect = value => {
-    props.showModal();
-    console.log(value.date());
-  };
   return (
     <div>
       <Calendar
         dateCellRender={dateCellRender}
         monthCellRender={monthCellRender}
-        onSelect={onDateSelect}
+        onSelect={props.onCalendarDateSelect}
       />
     </div>
   );

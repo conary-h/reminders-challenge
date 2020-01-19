@@ -1,65 +1,49 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { DatePicker, TimePicker, AutoComplete, Input } from 'antd';
 import { CirclePicker } from 'react-color';
 
-export default function AddReminder() {
+export default function AddReminder(props) {
   const [searchText, setSearchText] = useState('');
-  const [cityName, setCityName] = useState('');
   const [citiesData, setCitiesData] = useState([]);
-  const [reminderColor, setReminderColor] = useState('');
 
-  const onDatePickerChange = (date, dateString) => {
-    console.log(date, dateString);
-  };
-  const onTimeChange = (time, timeString) => {
-    console.log(time, timeString);
-  };
-  const onCitySelect = value => {
-    console.log('onSelect', value);
-  };
-  const onCityChange = value => {
-    setCityName(value);
-  };
   const onCitySearch = searchText => {
     !searchText
       ? setSearchText([])
       : setCitiesData([searchText, searchText.repeat(2), searchText.repeat(3)]);
   };
-  const handleColorChange = color => {
-    setReminderColor(color.hex);
-  };
   return (
     <div id="add-reminder">
       <Input
+        value={props.reminderTitle}
+        onChange={props.onReminderTitleChange}
         placeholder="Reminder title"
         maxLength={30}
         className="reminder-title reminder-input"
       />
       <DatePicker
-        onChange={onDatePickerChange}
+        onChange={props.onDatePickerChange}
         className="reminder-date reminder-input"
       />
       <TimePicker
         use12Hours
         format="h:mm:ss A"
-        onChange={onTimeChange}
+        onChange={props.onTimeChange}
         className="reminder-time reminder-input"
       />
       <AutoComplete
-        value={cityName}
+        value={props.cityName}
         dataSource={citiesData}
         className="reminder-input"
-        onSelect={onCitySelect}
         onSearch={onCitySearch}
-        onChange={onCityChange}
+        onChange={props.onCityChange}
         placeholder="Type city name"
       />
       <div className="color-picker-container">
         <span className="color-label">Pick a color:</span>
         <CirclePicker
-          onChange={handleColorChange}
+          onChange={props.onColorChange}
           colors={[
-            '#D9E3F0',
             '#F47373',
             '#697689',
             '#37D67A',
@@ -74,3 +58,21 @@ export default function AddReminder() {
     </div>
   );
 }
+
+AddReminder.propTypes = {
+  onDatePickerChange: PropTypes.func,
+  onTimeChange: PropTypes.func,
+  onCityChange: PropTypes.func,
+  onColorChange: PropTypes.func,
+  cityName: PropTypes.string,
+  reminderTitle: PropTypes.string
+};
+
+AddReminder.defaultProps = {
+  onDatePickerChange: () => {},
+  onTimeChange: () => {},
+  onCityChange: () => {},
+  onColorChange: () => {},
+  cityName: '',
+  reminderTitle: ''
+};
