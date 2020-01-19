@@ -1,8 +1,10 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Calendar, Badge } from 'antd';
 
 export default function CalendarWrapper(props) {
+  const reminders = useSelector(state => state.reminders);
   const getListData = value => {
     let listData;
     switch (value.date()) {
@@ -23,13 +25,18 @@ export default function CalendarWrapper(props) {
     }
     return listData || [];
   };
+  const setCurrentReminders = currentDate => {
+    return reminders.filter(
+      reminder => reminder.date === currentDate.format('MMM Do YY')
+    );
+  };
   const dateCellRender = value => {
-    const listData = getListData(value);
+    const listData = setCurrentReminders(value);
     return (
       <ul className="events">
-        {listData.map(item => (
-          <li key={item.content}>
-            <Badge status={item.type} text={item.content} />
+        {listData.map((item, index) => (
+          <li key={index}>
+            <Badge color={item.reminderColor} text={item.reminderTitle} />
           </li>
         ))}
       </ul>

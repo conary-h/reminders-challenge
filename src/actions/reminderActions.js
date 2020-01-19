@@ -10,13 +10,14 @@ export const addReminderAction = createAction(ADD_REMINDER);
 export const addReminderStartedAction = createAction(ADD_REMINDER_STARTED);
 export const addReminderFailureAction = createAction(ADD_REMINDER_FAILURE);
 
-export const addReminder = () => {
+export const addReminder = payload => {
   return dispatch => {
     dispatch(addReminderStartedAction());
 
     try {
-      dispatch(addReminderAction());
+      dispatch(addReminderAction(payload));
     } catch (error) {
+      console.log(error);
       dispatch(addReminderFailureAction(error));
     }
   };

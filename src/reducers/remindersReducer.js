@@ -6,8 +6,7 @@ const defaultState = [];
 const remindersReducer = handleActions(
   {
     [ADD_REMINDER]: (state, { payload }) => {
-      const reminders = payload;
-      return [...state, ...reminders];
+      return [...state, payload];
     }
   },
   defaultState

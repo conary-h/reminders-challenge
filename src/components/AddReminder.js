@@ -22,6 +22,7 @@ export default function AddReminder(props) {
         className="reminder-title reminder-input"
       />
       <DatePicker
+        value={props.currentDateSelected}
         onChange={props.onDatePickerChange}
         className="reminder-date reminder-input"
       />
