@@ -40,6 +40,13 @@ export default function Dashboard() {
   const onColorChange = color => {
     setReminderColor(color.hex);
   };
+  const clearAllInputs = () => {
+    setReminderTitle('');
+    setCityName('');
+    setDate('');
+    setTime('');
+    setReminderColor('');
+  };
   return (
     <div className="container">
       <h1>Calendar</h1>
@@ -55,6 +62,7 @@ export default function Dashboard() {
         visible={isModalVisible}
         onOk={handleAddConfirmation}
         onCancel={handleCancel}
+        afterClose={clearAllInputs}
       >
         <AddReminder
           onDatePickerChange={onDatePickerChange}
