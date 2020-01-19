@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
+import moment from 'moment';
 import CalendarWrapper from '../components/CalendarWrapper';
 import AddReminder from '../components/AddReminder';
 import { Modal, Button } from 'antd';
@@ -7,32 +8,36 @@ import { addReminder } from '../actions/reminderActions';
 
 export default function Dashboard() {
   const dispatch = useDispatch();
-
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedDayCell, setSelectedDayCell] = useState('');
   const [reminderTitle, setReminderTitle] = useState('');
   const [cityName, setCityName] = useState('');
-  const [time, setTime] = useState('');
-  const [date, setDate] = useState('');
+  const [reminderHour, setReminderHour] = useState('');
+  const [reminderdate, setReminderdate] = useState('');
   const [dateWholeObject, setDateWholeObject] = useState('');
   const [reminderColor, setReminderColor] = useState('');
+  const [reminderTimeInSeconds, setReminderTimeInSeconds] = useState('');
 
-  const showModal = () => {
+  useEffect(() => {
+    const today = moment();
+    onDatePickerChange(today);
+    setSelectedDayCell(today.date());
+  }, []);
+
+  const showCreateReminderModal = () => {
     setIsModalVisible(true);
   };
-  const onClickReminderBtn = () => {
-    showModal();
-  };
+
   const handleAddConfirmation = e => {
     const data = {
       selectedDayCell,
       reminderTitle,
       cityName,
-      time,
-      date,
+      reminderHour,
+      reminderTimeInSeconds,
+      reminderdate,
       reminderColor
     };
-    console.log(data);
     dispatch(addReminder(data));
 
     setIsModalVisible(false);
@@ -41,7 +46,8 @@ export default function Dashboard() {
     setIsModalVisible(false);
   };
   const onCalendarDateSelect = value => {
-    showModal();
+    console.log(value);
+    // showCreateReminderModal();
     onDatePickerChange(value);
     setSelectedDayCell(value.date());
   };
@@ -51,10 +57,11 @@ export default function Dashboard() {
   const onDatePickerChange = date => {
     const formatedDate = date.format('MMM Do YY');
     setDateWholeObject(date);
-    setDate(formatedDate);
+    setReminderdate(formatedDate);
   };
   const onTimeChange = (time, timeString) => {
-    setTime(timeString);
+    setReminderHour(timeString);
+    setReminderTimeInSeconds(time.unix());
   };
   const onCityChange = value => {
     setCityName(value);
@@ -65,19 +72,16 @@ export default function Dashboard() {
   const clearAllInputs = () => {
     setReminderTitle('');
     setCityName('');
-    setDate('');
-    setTime('');
     setReminderColor('');
-    setDateWholeObject('');
   };
   return (
     <div className="container">
       <h1>Calendar</h1>
-      <Button type="primary" onClick={onClickReminderBtn}>
+      <Button type="primary" onClick={showCreateReminderModal}>
         Create Reminder
       </Button>
       <CalendarWrapper
-        showModal={showModal}
+        showCreateReminderModal={showCreateReminderModal}
         onCalendarDateSelect={onCalendarDateSelect}
       />
       <Modal

@@ -5,38 +5,34 @@ import { Calendar, Badge } from 'antd';
 
 export default function CalendarWrapper(props) {
   const reminders = useSelector(state => state.reminders);
-  const getListData = value => {
-    let listData;
-    switch (value.date()) {
-      case 8:
-        listData = [
-          { type: 'warning', content: 'This is warning event.' },
-          { type: 'success', content: 'This is usual event.' }
-        ];
-        break;
-      case 10:
-        listData = [
-          { type: 'warning', content: 'This is warning event.' },
-          { type: 'success', content: 'This is usual event.' },
-          { type: 'error', content: 'This is error event.' }
-        ];
-        break;
-      default:
-    }
-    return listData || [];
-  };
-  const setCurrentReminders = currentDate => {
+
+  const setCurrentReminders = (reminders, currentDate) => {
     return reminders.filter(
-      reminder => reminder.date === currentDate.format('MMM Do YY')
+      reminder => reminder.reminderdate === currentDate.format('MMM Do YY')
     );
   };
+  const sortCurrentReminders = filteredReminderList => {
+    return filteredReminderList.sort((a, b) => {
+      return a.reminderTimeInSeconds - b.reminderTimeInSeconds;
+    });
+  };
+  const onReminderClick = e => {
+    console.log(e.target);
+  };
+
   const dateCellRender = value => {
-    const listData = setCurrentReminders(value);
+    const filteredReminderList = setCurrentReminders(reminders, value);
+    const listData = sortCurrentReminders(filteredReminderList);
+    console.log(listData);
     return (
       <ul className="events">
         {listData.map((item, index) => (
           <li key={index}>
-            <Badge color={item.reminderColor} text={item.reminderTitle} />
+            <Badge
+              color={item.reminderColor || '#000'}
+              text={item.reminderTitle}
+              onClick={onReminderClick}
+            />
           </li>
         ))}
       </ul>
