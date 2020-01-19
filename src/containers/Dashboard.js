@@ -9,7 +9,7 @@ export default function Dashboard() {
   const showModal = () => {
     setIsModalVisible(true);
   };
-  const handleOk = e => {
+  const handleAddConfirmation = e => {
     setIsModalVisible(false);
   };
 
@@ -18,14 +18,15 @@ export default function Dashboard() {
   };
   return (
     <div className="container">
+      <h1>Calendar</h1>
       <Button type="primary" onClick={showModal}>
-        Open Modal
+        Create Reminder
       </Button>
       <CalendarWrapper showModal={showModal} />
       <Modal
-        title="Basic Modal"
+        title="New Reminder"
         visible={isModalVisible}
-        onOk={handleOk}
+        onOk={handleAddConfirmation}
         onCancel={handleCancel}
       >
         <AddReminder />

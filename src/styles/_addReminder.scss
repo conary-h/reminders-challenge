@@ -1,0 +1,25 @@
+#add-reminder {
+  .reminder-title {
+  }
+  .reminder-date {
+  }
+  .reminder-time {
+  }
+  .reminder-input {
+    margin-bottom: 1.5rem;
+    width: 100%;
+  }
+  .color-picker-container {
+    text-align: center;
+
+    .color-label {
+      display: block;
+      margin-bottom: 1rem;
+    }
+    .circle-picker {
+      width: 100% !important;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
