@@ -9,7 +9,7 @@ import {
   EDIT_REMINDER_STARTED,
   EDIT_REMINDER_FAILURE
 } from './types';
-// import { getCategories } from '../services/categories';
+
 import { createAction } from 'redux-actions';
 
 export const addReminderAction = createAction(ADD_REMINDER);

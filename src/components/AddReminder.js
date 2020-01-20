@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addReminder } from '../actions/reminderActions';
+import { getCities } from '../services/cities';
 import moment from 'moment';
 import PropTypes from 'prop-types';
 import {
@@ -20,12 +21,16 @@ function AddReminder(props) {
   const [citiesData, setCitiesData] = useState([]);
   const [reminderColor, setReminderColor] = useState('');
   const { getFieldDecorator } = props.form;
+  const cities = getCities();
   const dispatch = useDispatch();
+  const { Option } = AutoComplete;
 
   const onCitySearch = searchText => {
     !searchText
       ? setSearchText([])
-      : setCitiesData([searchText, searchText.repeat(2), searchText.repeat(3)]);
+      : setCitiesData(
+          cities.filter(city => city.name.toLowerCase().includes(searchText))
+        );
   };
 
   const onColorChange = color => {
@@ -65,6 +70,11 @@ function AddReminder(props) {
       reminderHour: moment()
     });
   };
+  const options = citiesData.map(city => (
+    <Option key={city.id} value={city.name}>
+      {city.name}
+    </Option>
+  ));
   return (
     <div id="add-reminder" className="reminder-form">
       <Form onSubmit={handleAddConfirmation}>
@@ -142,7 +152,7 @@ function AddReminder(props) {
             ]
           })(
             <AutoComplete
-              dataSource={citiesData}
+              dataSource={options}
               className="reminder-input"
               onSearch={onCitySearch}
               placeholder="Type city name"

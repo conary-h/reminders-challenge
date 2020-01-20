@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { editReminder } from '../actions/reminderActions';
+import { getCities } from '../services/cities';
 import {
   DatePicker,
   TimePicker,
@@ -21,6 +22,8 @@ function EditReminder(props) {
   const [citiesData, setCitiesData] = useState([]);
   const [newColor, setNewColor] = useState('');
   const { getFieldDecorator } = props.form;
+  const cities = getCities();
+  const { Option } = AutoComplete;
   const {
     reminderTitle,
     cityName,
@@ -32,7 +35,9 @@ function EditReminder(props) {
   const onCitySearch = searchText => {
     !searchText
       ? setSearchText([])
-      : setCitiesData([searchText, searchText.repeat(2), searchText.repeat(3)]);
+      : setCitiesData(
+          cities.filter(city => city.name.toLowerCase().includes(searchText))
+        );
   };
   const onColorChange = color => {
     setNewColor(color.hex);
@@ -62,6 +67,11 @@ function EditReminder(props) {
       }
     });
   };
+  const options = citiesData.map(city => (
+    <Option key={city.id} value={city.name}>
+      {city.name}
+    </Option>
+  ));
   return (
     <div id="edit-reminder" className="reminder-form">
       <Form onSubmit={handleEditConfirmation}>
@@ -94,7 +104,7 @@ function EditReminder(props) {
             ]
           })(
             <AutoComplete
-              dataSource={citiesData}
+              dataSource={options}
               className="reminder-input"
               onSearch={onCitySearch}
               placeholder="Type city name"
