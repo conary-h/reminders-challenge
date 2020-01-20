@@ -28,10 +28,13 @@ export default function ReminderItem(props) {
 
   const onDeleteClick = reminderId => {
     return () => {
-      console.log(reminderId);
       dispatch(deleteReminder(reminderId));
       props.handleEditModalVisibility(false);
     };
+  };
+  const onEditClick = () => {
+    props.handleEditModalVisibility(true);
+    props.getReminderToEdit(props.reminderData);
   };
   return (
     <div className="reminder-item">
@@ -55,11 +58,7 @@ export default function ReminderItem(props) {
       </Tag>
       <div className="actions-wrapper">
         <Tooltip title="Edit">
-          <Icon
-            type="edit"
-            className="action-item"
-            onClick={() => props.handleEditModalVisibility(true)}
-          />
+          <Icon type="edit" className="action-item" onClick={onEditClick} />
         </Tooltip>
 
         <Tooltip title="Delete">
@@ -76,10 +75,12 @@ export default function ReminderItem(props) {
 
 ReminderItem.propTypes = {
   reminderData: PropTypes.object,
-  handleEditModalVisibility: PropTypes.func
+  handleEditModalVisibility: PropTypes.func,
+  getReminderToEdit: PropTypes.func
 };
 
 ReminderItem.defaultProps = {
   reminderData: {},
-  handleEditModalVisibility: () => {}
+  handleEditModalVisibility: () => {},
+  getReminderToEdit: () => {}
 };

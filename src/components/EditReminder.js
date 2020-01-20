@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { addReminder } from '../actions/reminderActions';
-import moment from 'moment';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { editReminder } from '../actions/reminderActions';
 import {
   DatePicker,
   TimePicker,
@@ -11,34 +10,40 @@ import {
   Input,
   Tooltip,
   Icon,
-  Button
+  Button,
+  Tag
 } from 'antd';
 import { CirclePicker } from 'react-color';
 
-function AddReminder(props) {
+function EditReminder(props) {
+  const dispatch = useDispatch();
   const [searchText, setSearchText] = useState('');
   const [citiesData, setCitiesData] = useState([]);
-  const [reminderColor, setReminderColor] = useState('');
+  const [newColor, setNewColor] = useState('');
   const { getFieldDecorator } = props.form;
-  const dispatch = useDispatch();
+  const {
+    reminderTitle,
+    cityName,
+    reminderHour,
+    reminderColor,
+    wholeDateObject
+  } = props.reminderToEdit;
 
   const onCitySearch = searchText => {
     !searchText
       ? setSearchText([])
       : setCitiesData([searchText, searchText.repeat(2), searchText.repeat(3)]);
   };
-
   const onColorChange = color => {
-    setReminderColor(color.hex);
+    setNewColor(color.hex);
   };
-
-  const handleAddConfirmation = e => {
+  const handleEditConfirmation = e => {
     e.preventDefault();
     props.form.validateFieldsAndScroll((err, values) => {
       const { reminderTitle, cityName, reminderHour, reminderDate } = values;
+      const { reminderId, reminderColor } = props.reminderToEdit;
       const formatedDate = reminderDate.format('MMM Do YY');
       const reminderTimeInSeconds = reminderHour.unix();
-      const reminderId = new Date().getTime();
 
       if (!err) {
         const data = {
@@ -49,36 +54,20 @@ function AddReminder(props) {
           reminderTimeInSeconds,
           reminderDate: formatedDate,
           wholeDateObject: reminderDate,
-          reminderColor
+          reminderColor: newColor || reminderColor
         };
-        dispatch(addReminder(data));
-        props.setIsReminderModalVisible(false);
-        clearAllInputs();
+        dispatch(editReminder(data));
+        setNewColor('');
+        props.setIsEditReminderVisible(false);
       }
     });
   };
-  const clearAllInputs = () => {
-    props.form.setFieldsValue({
-      reminderTitle: '',
-      cityName: '',
-      reminderDate: moment(),
-      reminderHour: moment()
-    });
-  };
   return (
-    <div id="add-reminder" className="reminder-form">
-      <Form onSubmit={handleAddConfirmation}>
-        <Form.Item
-          label={
-            <span>
-              Reminder title&nbsp;
-              <Tooltip title="What do you want the reminder to be called?">
-                <Icon type="question-circle-o" />
-              </Tooltip>
-            </span>
-          }
-        >
+    <div id="edit-reminder" className="reminder-form">
+      <Form onSubmit={handleEditConfirmation}>
+        <Form.Item>
           {getFieldDecorator('reminderTitle', {
+            initialValue: reminderTitle,
             rules: [
               {
                 required: true,
@@ -94,46 +83,9 @@ function AddReminder(props) {
             />
           )}
         </Form.Item>
-
-        <Form.Item
-          label={
-            <span>
-              Reminder date&nbsp;
-              <Tooltip title="When do you want the reminder to be set?">
-                <Icon type="question-circle-o" />
-              </Tooltip>
-            </span>
-          }
-        >
-          {getFieldDecorator('reminderDate', {
-            rules: [
-              {
-                required: true,
-                message: 'Please input your reminder date.'
-              }
-            ]
-          })(<DatePicker className="reminder-date reminder-input" />)}
-        </Form.Item>
-
-        <Form.Item label={<span>Reminder time&nbsp;</span>}>
-          {getFieldDecorator('reminderHour', {
-            rules: [
-              {
-                required: true,
-                message: 'Please input your reminder time.'
-              }
-            ]
-          })(
-            <TimePicker
-              use12Hours
-              format="h:mm:ss A"
-              className="reminder-time reminder-input"
-            />
-          )}
-        </Form.Item>
-
-        <Form.Item label={<span>City&nbsp;</span>}>
+        <Form.Item>
           {getFieldDecorator('cityName', {
+            initialValue: cityName,
             rules: [
               {
                 required: true,
@@ -149,9 +101,45 @@ function AddReminder(props) {
             />
           )}
         </Form.Item>
+        <Form.Item>
+          {getFieldDecorator('reminderDate', {
+            initialValue: wholeDateObject,
+            rules: [
+              {
+                required: true,
+                message: 'Please input your reminder date.'
+              }
+            ]
+          })(<DatePicker className="reminder-date reminder-input" />)}
+        </Form.Item>
+        <Form.Item>
+          {getFieldDecorator('reminderHour', {
+            initialValue: reminderHour,
+            rules: [
+              {
+                required: true,
+                message: 'Please input your reminder time.'
+              }
+            ]
+          })(
+            <TimePicker
+              use12Hours
+              format="h:mm:ss A"
+              className="reminder-time reminder-input"
+            />
+          )}
+        </Form.Item>
+
+        <div className="reminder-input">
+          <Tag color={reminderColor} className="item-element">
+            Current Color
+          </Tag>
+          <Tag color={newColor} className="item-element">
+            New Color
+          </Tag>
+        </div>
 
         <div className="color-picker-container">
-          <span className="color-label">Pick a color:</span>
           <CirclePicker
             onChange={onColorChange}
             colors={[
@@ -171,18 +159,21 @@ function AddReminder(props) {
           htmlType="submit"
           className="add-reminder-button uppercase"
         >
-          Create
+          Save
         </Button>
       </Form>
     </div>
   );
 }
-export default Form.create({ name: 'create_reminder' })(AddReminder);
 
-AddReminder.propTypes = {
-  setIsReminderModalVisible: PropTypes.func
+export default Form.create({ name: 'edit_reminder' })(EditReminder);
+
+EditReminder.propTypes = {
+  reminderToEdit: PropTypes.object,
+  setIsEditReminderVisible: PropTypes.func
 };
 
-AddReminder.defaultProps = {
-  setIsReminderModalVisible: () => {}
+EditReminder.defaultProps = {
+  reminderToEdit: {},
+  setIsEditReminderVisible: () => {}
 };
