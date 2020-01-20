@@ -15,8 +15,8 @@ export const getForecast = payload => {
     dispatch(getForecastStartedAction());
 
     try {
-      const forecast = await fetchForecast();
-      dispatch(getForecastAction(forecast));
+      const forecast = await fetchForecast(payload);
+      dispatch(getForecastAction(forecast.data));
     } catch (error) {
       console.log(error);
       dispatch(getForecastFailureAction(error));

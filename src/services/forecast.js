@@ -1,10 +1,12 @@
 import axios from 'axios';
 
-const forecastUrl =
-  'https://api.openweathermap.org/data/2.5/forecast/daily?id=524901&appid=d0eaa34e4c1a47991eaf72d75bb4af45';
+const forecastUrl = 'http://api.openweathermap.org/data/2.5/forecast';
 
 const testingUrl =
   'https://samples.openweathermap.org/data/2.5/forecast/daily?id=3601782&appid=b1b15e88fa797225412429c1c50c122a1';
+
+//openweathermap did not activate my key on time.
+const borrowedAPIKey = '34144a1d42f51abe5d962ecbccc72a09';
 
 const mockData = {
   cod: 200,
@@ -49,10 +51,12 @@ const mockData = {
   ]
 };
 
-export const fetchForecast = async cityId => {
-  // const data = await axios.get(testingUrl);
+export const fetchForecast = async cityName => {
+  const data = await axios.get(
+    `${forecastUrl}?q=${cityName}&appid=${borrowedAPIKey}`
+  );
 
-  return mockData;
+  return data;
   /* console.log(data);
   return data.data; */
 };

@@ -3,7 +3,7 @@ import { deleteReminder } from '../actions/reminderActions';
 import { getForecast } from '../actions/forecastActions';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Tooltip, Icon, Tag } from 'antd';
+import { Tooltip, Icon, Tag, Popover, Button } from 'antd';
 
 export default function ReminderItem(props) {
   const dispatch = useDispatch();
@@ -16,13 +16,23 @@ export default function ReminderItem(props) {
     reminderColor,
     wholeDateObject
   } = props.reminderData;
-  const currentForecast = useSelector(state => state.forecasts[cityName]);
+  let currentWeather = [];
+  let weatherInfo = '';
+  const pureCityName = cityName.split(',')[0];
+  const currentForecast = useSelector(state => state.forecasts[pureCityName]);
 
   console.log(currentForecast);
 
   useEffect(() => {
-    console.log(wholeDateObject.unix());
-    dispatch(getForecast());
+    console.log(
+      wholeDateObject
+        .hour(0)
+        .minutes(0)
+        .seconds(0)
+        .milliseconds(0)
+        .unix()
+    );
+    dispatch(getForecast(cityName));
   }, []);
 
   const onDeleteClick = reminderId => {
@@ -35,11 +45,27 @@ export default function ReminderItem(props) {
     props.handleEditModalVisibility(true);
     props.getReminderToEdit(props.reminderData);
   };
+
+  const getCurrentForeCastWeather = currentForecast => {
+    return currentForecast.list.filter(
+      forecast => forecast.dt === wholeDateObject.unix()
+    );
+  };
+  if (currentForecast) {
+    currentWeather = getCurrentForeCastWeather(currentForecast);
+    weatherInfo =
+      currentWeather.length > 0
+        ? currentWeather[0].weather[0].description
+        : 'There is no weather info available for this date.';
+  }
+  const popOvercontent = (
+    <div>
+      <p>{weatherInfo}</p>
+    </div>
+  );
+
   return (
     <div className="reminder-item">
-      <h1>
-        {currentForecast ? currentForecast.list[0].weather[0].description : ''}
-      </h1>
       <strong className="reminder-title item-element">{reminderTitle}</strong>
       <Tooltip title="City">
         <span className="reminder-city item-element">{cityName}</span>
@@ -58,6 +84,11 @@ export default function ReminderItem(props) {
       <Tag color={reminderColor} className="item-element">
         Current Color
       </Tag>
+      <Popover content={popOvercontent} title="Weather" trigger="hover">
+        <Button type="dashed" className="item-element">
+          Weather
+        </Button>
+      </Popover>
       <div className="actions-wrapper">
         <Tooltip title="Edit">
           <Icon type="edit" className="action-item" onClick={onEditClick} />
