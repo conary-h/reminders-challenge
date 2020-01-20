@@ -38,18 +38,19 @@ function AddReminder(props) {
       const { reminderTitle, cityName, reminderHour, reminderDate } = values;
       const formatedDate = reminderDate.format('MMM Do YY');
       const reminderTimeInSeconds = reminderHour.unix();
+      const reminderId = new Date().getTime();
 
       if (!err) {
         const data = {
-          // selectedDayCell,
+          reminderId,
           reminderTitle,
           cityName,
           reminderHour,
           reminderTimeInSeconds,
           reminderDate: formatedDate,
+          wholeDateObject: reminderDate,
           reminderColor
         };
-        console.log('Received values of form: ', values);
         dispatch(addReminder(data));
         props.setIsReminderModalVisible(false);
         clearAllInputs();

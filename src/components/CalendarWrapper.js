@@ -58,7 +58,7 @@ export default function CalendarWrapper(props) {
       <Calendar
         dateCellRender={dateCellRender}
         monthCellRender={monthCellRender}
-        onSelect={props.onCalendarDateSelect}
+        onSelect={props.onDaySelection}
       />
     </div>
   );

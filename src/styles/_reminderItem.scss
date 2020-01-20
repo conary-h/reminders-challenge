@@ -1,0 +1,42 @@
+.reminder-item {
+  margin-bottom: 1rem;
+  .reminder-title {
+    font-size: 1.1rem;
+    max-width: 20rem;
+    display: inline-block;
+    min-width: 20rem;
+    @media (min-width: 1200px) {
+      font-size: 1.4rem;
+      max-width: 25rem;
+      min-width: 25rem;
+    }
+  }
+  .reminder-city {
+    max-width: 12rem;
+    display: inline-block;
+    min-width: 12rem;
+  }
+  .actions-wrapper {
+    display: inline-block;
+    margin-left: 0.5rem;
+  }
+  .item-element {
+    margin-right: 1.5rem;
+  }
+  .action-item {
+    font-size: 1.7rem;
+    margin-right: 1rem;
+
+    &.anticon-edit {
+      &:hover {
+        color: blue;
+      }
+    }
+
+    &.anticon-delete {
+      &:hover {
+        color: red;
+      }
+    }
+  }
+}

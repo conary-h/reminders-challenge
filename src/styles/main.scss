@@ -1,5 +1,6 @@
 @import 'utils';
 @import 'addReminder';
+@import 'reminderItem';
 @import '~antd/dist/antd.css';
 
 html {
@@ -15,4 +16,18 @@ ul {
 }
 a {
   text-decoration: none;
+}
+
+.ant-modal {
+  width: 95%;
+  @media (min-width: 768px) {
+    width: 95% !important;
+  }
+  @media (min-width: 1024px) {
+    width: 75rem !important;
+  }
+
+  @media (min-width: 1200px) {
+    width: 85rem !important;
+  }
 }
