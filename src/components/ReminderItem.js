@@ -1,19 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { deleteReminder } from '../actions/reminderActions';
-import { useDispatch } from 'react-redux';
+import { getForecast } from '../actions/forecastActions';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import {
-  DatePicker,
-  TimePicker,
-  AutoComplete,
-  Form,
-  Input,
-  Tooltip,
-  Icon,
-  Button,
-  Tag,
-  Modal
-} from 'antd';
+import { Tooltip, Icon, Tag } from 'antd';
 
 export default function ReminderItem(props) {
   const dispatch = useDispatch();
@@ -23,8 +13,17 @@ export default function ReminderItem(props) {
     cityName,
     reminderHour,
     reminderDate,
-    reminderColor
+    reminderColor,
+    wholeDateObject
   } = props.reminderData;
+  const currentForecast = useSelector(state => state.forecasts[cityName]);
+
+  console.log(currentForecast);
+
+  useEffect(() => {
+    console.log(wholeDateObject.unix());
+    dispatch(getForecast());
+  }, []);
 
   const onDeleteClick = reminderId => {
     return () => {
@@ -38,6 +37,9 @@ export default function ReminderItem(props) {
   };
   return (
     <div className="reminder-item">
+      <h1>
+        {currentForecast ? currentForecast.list[0].weather[0].description : ''}
+      </h1>
       <strong className="reminder-title item-element">{reminderTitle}</strong>
       <Tooltip title="City">
         <span className="reminder-city item-element">{cityName}</span>
