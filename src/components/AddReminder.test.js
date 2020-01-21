@@ -45,20 +45,6 @@ describe('Add Remider - Modal', () => {
     expect(titleError).toBeDefined();
   });
 
-  test('should not show error message if reminder title has valid value', () => {
-    const { container } = component;
-
-    const button = container.querySelector('.add-reminder-button');
-    const reminderTitle = container.querySelector(
-      '#create_reminder_reminderTitle'
-    );
-
-    fireEvent.change(reminderTitle, { target: { value: 'my new reminder' } });
-    fireEvent.click(button);
-
-    // expect(queryByTestId('Please input your reminder name.')).toBeNull();
-  });
-
   test('should allow only 30 chars if value if greater than 30', () => {
     const { container, getByText } = component;
 
@@ -75,5 +61,49 @@ describe('Add Remider - Modal', () => {
     const titleError = getByText('Only 30 characters are allowed.');
 
     expect(titleError).toBeDefined();
+  });
+
+  test('should call hanlde submit action if values are correct and button is clicked', async () => {
+    const { container, getByText, getByPlaceholderText, getBy } = component;
+
+    const button = container.querySelector('.add-reminder-button');
+    const reminderTitle = container.querySelector(
+      '#create_reminder_reminderTitle'
+    );
+    const reminderDate = container.querySelector('.ant-calendar-picker-input');
+    const reminderTime = container.querySelector(
+      '#create_reminder_reminderHour'
+    );
+    const reminderCity = container.querySelector('.ant-select-search__field');
+
+    fireEvent.change(reminderTitle, {
+      target: {
+        value: 'test reminder'
+      }
+    });
+
+    fireEvent.change(reminderDate, {
+      target: {
+        value: '2020-01-07'
+      }
+    });
+
+    fireEvent.change(reminderTime, {
+      target: {
+        value: '10:17:23 PM'
+      }
+    });
+
+    fireEvent.change(reminderCity, {
+      target: {
+        value: 'Nuevo San Carlos, G'
+      }
+    });
+
+    fireEvent.click(button);
+
+    const newState = store.getState();
+
+    expect(newState).toBeDefined();
   });
 });
