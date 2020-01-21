@@ -1,11 +1,8 @@
 <div align="center">
   <img src="https://img.favpng.com/14/25/15/calendar-cartoon-png-favpng-4cf9edVfCTktg52mE172ymNcp.jpg" width="110" height="110"/>
   <br/>
-  <br/>
-  <br/>  
 </div>
 
-<br/>
 <br/>
 
 # React Calendar
@@ -29,10 +26,6 @@ A cool and easy to use [React](https://github.com/facebook/react) calendar for y
 
 <br/>
 
-Read more info about symbol `λ` in the section: [editor configuration](#editor-configuration).
-
-<br/>
-
 ## Getting started
 
 Please follow these instructions on your machine.
@@ -45,17 +38,57 @@ Make sure you have installed all of the following prerequisites on your developm
 - Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
 - Yarn - [Download & Install Yarn](https://yarnpkg.com/en/docs/install#windows-stable) and the npm package manager.
 
-Run the following commands:
+Important commands:
+
+Install all the necessary dependencies
 
 ```sh
 $ yarn install
 ```
 
+You start the app by running:
+
 ```sh
 $ yarn start
 ```
 
+App will be running on [http://localhost:3000](http://localhost:3000)
+
 <br/>
+
+## Testing the app
+
+```sh
+$ yarn test
+```
+
+## Create a production build
+
+```sh
+$ yarn build
+```
+
+**yarn build** will generate a production bundle.
+
+The first thing you'll see is the dashboard.
+
+<img src="/images/home-vw.jpg" alt="dashboard">
+
+To add a new reminder just click the button "Create reminder"
+
+<img src="/images/new-reminder.jpg" alt="new reminder">
+
+Don't forget to fill the required fields otherwise you'll receive some feedback.
+
+<img src="/images/validations.jpg" alt="validations">
+
+Then you can hit any of the date cells for a summary
+
+<img src="/images/reminder-summary.jpg" alt="Summary">
+
+You can also edit your reminders
+
+<img src="/images/edit-reminder.jpg" alt="Edit">
 
 ## Feedback
 
