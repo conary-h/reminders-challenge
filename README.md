@@ -72,23 +72,23 @@ $ yarn build
 
 The first thing you'll see is the dashboard.
 
-<img src="/images/home-vw.jpg" alt="dashboard">
+<img src="/images/home-vw.JPG" alt="dashboard">
 
 To add a new reminder just click the button "Create reminder"
 
-<img src="/images/new-reminder.jpg" alt="new reminder">
+<img src="/images/new-reminder.JPG" alt="new reminder">
 
 Don't forget to fill the required fields otherwise you'll receive some feedback.
 
-<img src="/images/validations.jpg" alt="validations">
+<img src="/images/validations.JPG" alt="validations">
 
 Then you can hit any of the date cells for a summary
 
-<img src="/images/reminder-summary.jpg" alt="Summary">
+<img src="/images/reminder-summary.JPG" alt="Summary">
 
 You can also edit your reminders
 
-<img src="/images/edit-reminder.jpg" alt="Edit">
+<img src="/images/edit-reminder.JPG" alt="Edit">
 
 ## Feedback
 
