@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import ReminderItem from './ReminderItem';
 import EditReminder from './EditReminder';
 import { Modal } from 'antd';
 
 export default function ReminderPanel(props) {
-  const dispatch = useDispatch();
   const reminders = useSelector(state => state.reminders);
   const [isEditReminderVisible, setIsEditReminderVisible] = useState(false);
   const [reminderToEdit, setReminderToEdit] = useState({});
@@ -17,7 +16,7 @@ export default function ReminderPanel(props) {
   const getRemindersForSpecificDate = (reminders = []) => {
     return reminders.filter(reminder => {
       currentReminderIdList.push(reminder.reminderId);
-      return reminder.wholeDateObject.date() == props.selectedDay.date();
+      return reminder.wholeDateObject.date() === props.selectedDay.date();
     });
   };
   const sortCurrentReminders = filteredReminderList => {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Calendar, Badge } from 'antd';
+import { defaultBadgeColor } from '../constants';
 
 export default function CalendarWrapper(props) {
   const reminders = useSelector(state => state.reminders);
@@ -27,7 +28,7 @@ export default function CalendarWrapper(props) {
         {listData.map((item, index) => (
           <li key={index}>
             <Badge
-              color={item.reminderColor || '#000'}
+              color={item.reminderColor || defaultBadgeColor}
               text={item.reminderTitle}
               onClick={onReminderClick}
             />

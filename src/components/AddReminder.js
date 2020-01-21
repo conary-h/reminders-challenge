@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addReminder } from '../actions/reminderActions';
+import { colorList, defaultBadgeColor } from '../constants';
 import { getCities } from '../services/cities';
 import moment from 'moment';
 import PropTypes from 'prop-types';
@@ -56,7 +57,7 @@ function AddReminder(props) {
           reminderTimeInSeconds,
           reminderDate: formatedDate,
           wholeDateObject: reminderDate,
-          reminderColor
+          reminderColor: reminderColor || defaultBadgeColor
         };
         dispatch(addReminder(data));
         props.setIsReminderModalVisible(false);
@@ -168,19 +169,7 @@ function AddReminder(props) {
 
         <div className="color-picker-container">
           <span className="color-label">Pick a color:</span>
-          <CirclePicker
-            onChange={onColorChange}
-            colors={[
-              '#F47373',
-              '#697689',
-              '#37D67A',
-              '#2CCCE4',
-              '#555555',
-              '#dce775',
-              '#ff8a65',
-              '#ba68c8'
-            ]}
-          />
+          <CirclePicker onChange={onColorChange} colors={colorList} />
         </div>
         <Button
           type="primary"

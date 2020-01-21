@@ -21,19 +21,16 @@ export default function ReminderItem(props) {
   const pureCityName = cityName.split(',')[0];
   const currentForecast = useSelector(state => state.forecasts[pureCityName]);
 
-  console.log(currentForecast);
+  const unixDate = wholeDateObject
+    .hour(0)
+    .minutes(0)
+    .seconds(0)
+    .milliseconds(0)
+    .unix();
 
   useEffect(() => {
-    console.log(
-      wholeDateObject
-        .hour(0)
-        .minutes(0)
-        .seconds(0)
-        .milliseconds(0)
-        .unix()
-    );
     dispatch(getForecast(cityName));
-  }, []);
+  }, [dispatch, cityName]);
 
   const onDeleteClick = reminderId => {
     return () => {
@@ -47,22 +44,24 @@ export default function ReminderItem(props) {
   };
 
   const getCurrentForeCastWeather = currentForecast => {
-    return currentForecast.list.filter(
-      forecast => forecast.dt === wholeDateObject.unix()
-    );
+    return currentForecast.list.filter(forecast => forecast.dt === unixDate);
   };
   if (currentForecast) {
     currentWeather = getCurrentForeCastWeather(currentForecast);
-    weatherInfo =
-      currentWeather.length > 0
-        ? currentWeather[0].weather[0].description
-        : 'There is no weather info available for this date.';
+    weatherInfo = currentWeather.length > 0 ? currentWeather[0].weather[0] : [];
   }
-  const popOvercontent = (
-    <div>
-      <p>{weatherInfo}</p>
-    </div>
-  );
+  const popOvercontent =
+    currentWeather.length > 0 ? (
+      <div>
+        <img
+          src={`http://openweathermap.org/img/wn/${weatherInfo.icon}.png`}
+          alt={`${weatherInfo.description} icon`}
+        />
+        <p>{weatherInfo.description}</p>
+      </div>
+    ) : (
+      <p>There is no weather info available for this date.</p>
+    );
 
   return (
     <div className="reminder-item">

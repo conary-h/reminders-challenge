@@ -6,7 +6,6 @@ const defaultState = {};
 const forecastReducer = handleActions(
   {
     [GET_FORECAST]: (state, { payload }) => {
-      console.log(payload);
       return { ...state, [payload.city.name]: { ...payload } };
     }
   },

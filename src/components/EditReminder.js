@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import { editReminder } from '../actions/reminderActions';
+import { colorList } from '../constants';
 import { getCities } from '../services/cities';
 import {
   DatePicker,
@@ -9,8 +10,6 @@ import {
   AutoComplete,
   Form,
   Input,
-  Tooltip,
-  Icon,
   Button,
   Tag
 } from 'antd';
@@ -150,19 +149,7 @@ function EditReminder(props) {
         </div>
 
         <div className="color-picker-container">
-          <CirclePicker
-            onChange={onColorChange}
-            colors={[
-              '#F47373',
-              '#697689',
-              '#37D67A',
-              '#2CCCE4',
-              '#555555',
-              '#dce775',
-              '#ff8a65',
-              '#ba68c8'
-            ]}
-          />
+          <CirclePicker onChange={onColorChange} colors={colorList} />
         </div>
         <Button
           type="primary"
