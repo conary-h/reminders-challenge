@@ -96,12 +96,16 @@ function AddReminder(props) {
                 required: true,
                 message: 'Please input your reminder name.',
                 whitespace: true
+              },
+              {
+                max: 30,
+                message: 'Only 30 characters are allowed.',
+                whitespace: true
               }
             ]
           })(
             <Input
               placeholder="Reminder title"
-              maxLength={30}
               className="reminder-title reminder-input"
             />
           )}
