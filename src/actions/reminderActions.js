@@ -7,7 +7,10 @@ import {
   DELETE_REMINDER_FAILURE,
   EDIT_REMINDER,
   EDIT_REMINDER_STARTED,
-  EDIT_REMINDER_FAILURE
+  EDIT_REMINDER_FAILURE,
+  DELETE_ALL_REMINDERS,
+  DELETE_ALL_REMINDERS_STARTED,
+  DELETE_ALL_REMINDERS_FAILURE
 } from './types';
 
 import { createAction } from 'redux-actions';
@@ -26,6 +29,14 @@ export const deleteReminderStartedAction = createAction(
 );
 export const deleteReminderFailureAction = createAction(
   DELETE_REMINDER_FAILURE
+);
+
+export const deleteAllRemindersAction = createAction(DELETE_ALL_REMINDERS);
+export const deleteAllRemindersStartedAction = createAction(
+  DELETE_ALL_REMINDERS_STARTED
+);
+export const deleteAllRemindersFailureAction = createAction(
+  DELETE_ALL_REMINDERS_FAILURE
 );
 
 export const addReminder = payload => {
@@ -62,6 +73,19 @@ export const deleteReminder = payload => {
     } catch (error) {
       console.error(error);
       dispatch(deleteReminderFailureAction(error));
+    }
+  };
+};
+
+export const deleteAllReminders = date => {
+  return dispatch => {
+    dispatch(deleteAllRemindersStartedAction());
+
+    try {
+      dispatch(deleteAllRemindersAction(date));
+    } catch (error) {
+      console.error(error);
+      dispatch(deleteAllRemindersFailureAction(error));
     }
   };
 };

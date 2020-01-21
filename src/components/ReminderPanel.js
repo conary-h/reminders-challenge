@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { deleteAllReminders } from '../actions/reminderActions';
 import ReminderItem from './ReminderItem';
 import EditReminder from './EditReminder';
-import { Modal } from 'antd';
+import { Modal, Button } from 'antd';
 
 export default function ReminderPanel(props) {
+  const dispatch = useDispatch();
   const reminders = useSelector(state => state.reminders);
   const [isEditReminderVisible, setIsEditReminderVisible] = useState(false);
   const [reminderToEdit, setReminderToEdit] = useState({});
@@ -43,15 +45,28 @@ export default function ReminderPanel(props) {
     setReminderToEdit(reminderData);
   };
 
+  const onDeleteAllClicked = filteredReminders => {
+    dispatch(deleteAllReminders(filteredReminders[0].reminderDate));
+  };
+
   return (
     <div id="reminder-panel">
       {filteredReminders.length > 0 ? (
-        <div className="reminder-list">
-          {generateReminderItems(sortedReminders)}
+        <div className="panel-inner-wrapper">
+          <div className="reminder-list">
+            {generateReminderItems(sortedReminders)}
+          </div>
+          <Button
+            onClick={() => onDeleteAllClicked(filteredReminders)}
+            type="danger"
+          >
+            Delete All
+          </Button>
         </div>
       ) : (
         <strong>No reminders yet.</strong>
       )}
+
       <Modal
         title="Edit Reminder"
         visible={isEditReminderVisible}

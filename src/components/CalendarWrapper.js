@@ -16,9 +16,6 @@ export default function CalendarWrapper(props) {
       return a.reminderTimeInSeconds - b.reminderTimeInSeconds;
     });
   };
-  const onReminderClick = e => {
-    console.log(e.target);
-  };
 
   const dateCellRender = value => {
     const filteredReminderList = setCurrentReminders(reminders, value);
@@ -30,7 +27,6 @@ export default function CalendarWrapper(props) {
             <Badge
               color={item.reminderColor || defaultBadgeColor}
               text={item.reminderTitle}
-              onClick={onReminderClick}
             />
           </li>
         ))}

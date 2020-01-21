@@ -46,8 +46,6 @@ function AddReminder(props) {
       const reminderTimeInSeconds = reminderHour.unix();
       const reminderId = new Date().getTime();
 
-      console.log(values);
-
       if (!err) {
         const data = {
           reminderId,
